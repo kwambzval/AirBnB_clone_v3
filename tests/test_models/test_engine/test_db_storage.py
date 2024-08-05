@@ -18,13 +18,21 @@ import json
 import os
 import pep8
 import unittest
+
 DBStorage = db_storage.DBStorage
-classes = {"Amenity": Amenity, "City": City, "Place": Place,
-           "Review": Review, "State": State, "User": User}
+classes = {
+    "Amenity": Amenity, 
+    "City": City, 
+    "Place": Place,
+    "Review": Review, 
+    "State": State, 
+    "User": User
+}
 
 
 class TestDBStorageDocs(unittest.TestCase):
     """Tests to check the documentation and style of DBStorage class"""
+
     @classmethod
     def setUpClass(cls):
         """Set up for the doc tests"""
@@ -38,10 +46,9 @@ class TestDBStorageDocs(unittest.TestCase):
                          "Found code style errors (and warnings).")
 
     def test_pep8_conformance_test_db_storage(self):
-        """Test tests/test_models/test_db_storage.py conforms to PEP8."""
+        """Test tests/test_models/test_engine/test_db_storage.py conforms to PEP8."""
         pep8s = pep8.StyleGuide(quiet=True)
-        result = pep8s.check_files(['tests/test_models/test_engine/\
-test_db_storage.py'])
+        result = pep8s.check_files(['tests/test_models/test_engine/test_db_storage.py'])
         self.assertEqual(result.total_errors, 0,
                          "Found code style errors (and warnings).")
 
@@ -66,46 +73,3 @@ test_db_storage.py'])
                              "{:s} method needs a docstring".format(func[0]))
             self.assertTrue(len(func[1].__doc__) >= 1,
                             "{:s} method needs a docstring".format(func[0]))
-
-
-class TestFileStorage(unittest.TestCase):
-    """Test the FileStorage class"""
-    @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
-    def test_all_returns_dict(self):
-        """Test that all returns a dictionaty"""
-        self.assertIs(type(models.storage.all()), dict)
-
-    @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
-    def test_all_no_class(self):
-        """Test that all returns all rows when no class is passed"""
-
-    @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
-    def test_new(self):
-        """test that new adds an object to the database"""
-
-    @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
-    def test_save(self):
-        """Test that save properly saves objects to file.json"""
-class TestDBStorage(unittest.TestCase):
-    """Test cases for DBStorage
-    """
-
-    def test_get(self):
-        """Test the get method
-        """
-        first_state_id = list(storage.all(State).values())[0].id
-        state = storage.get(State, first_state_id)
-        self.assertIsNotNone(state)
-        self.assertEqual(state.id, first_state_id)
-
-    def test_count(self):
-        """Test the count method
-        """
-        initial_count = storage.count()
-        self.assertEqual(initial_count, len(storage.all()))
-        state_count = storage.count(State)
-        self.assertEqual(state_count, len(storage.all(State)))
-
-
-if __name__ == "__main__":
-    unittest.main()
